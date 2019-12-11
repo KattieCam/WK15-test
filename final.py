@@ -1,6 +1,8 @@
 import requests
 from PIL import Image
 
+image = Image.open("tacos-unsplash.jpg")
+
 taco_data = 'https://taco-1150.herokuapp.com/random/?full_taco=true'  # requesting data from url
 response = requests.get(taco_data)
 
