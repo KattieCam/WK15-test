@@ -1,5 +1,6 @@
 import requests
 from PIL import Image, ImageDraw, ImageFont
+import docx
 
 im = Image.open('tacos-unsplash.jpg')  # this open my image
 width = im.width  # requesting the height and width of my original photo, and storing data
@@ -11,17 +12,13 @@ half_height = int(height / 2)  # i am reducing the size of my image
 half_width = int(width / 2)  # i am saving the changes to my resized images
 
 half_size = im.resize((half_width, half_height))
-half_size.show()
+half_size.show()  # this would show my half size image
 half_size.save('half_size_taco.jpg')
 
-
-
-im_draw = ImageDraw.Draw(im)
-
-# font = ImageFont.truetype('DejaVuSans.ttf', 100)
-# im_draw.text([640, 790, ], 'Random Taco Cookbook', fill='black', font=font)
-# smaller_im.show()
-
+font = ImageFont.truetype('DejaVuSans.ttf', 50)  # font = ImageFont.truetype('DejaVuSans.ttf', 50)
+draw = ImageDraw.Draw(im)  # drawing tool
+draw.text((15, 15), "Random Taco Cookbook", (225, 225, 0), font=font)  # specifiying my font color
+im.save('half_size_taco_text.jpg')
 
 taco_data = 'https://taco-1150.herokuapp.com/random/?full_taco=true'  # requesting data from url
 response = requests.get(taco_data)
@@ -48,3 +45,25 @@ for first_key in response_json.keys():
     print(item[second_key])
     print()
 """
+
+
+def create_document(image_name, photo_info):
+    document = docx.Document()
+    # naming and adding heading
+    document.add_heading("Random Taco Cookbook", 0)
+    # adding a picture
+    document.add_picture(image_name, width=(width / 2))
+    # adding and naming heading for credits
+    document.add_heading('Credits')
+    # adding lines under credits
+    document.add_paragraph('Taco image: ' + photo_info, style='List Bullet')
+    # adds unsplash link, styles it with bullet points
+    document.add_paragraph('Tacos from: ' + taco_data, style='List Bullet')
+    document.add_paragraph('Created by: Kattie')
+
+    for recipe in taco_data:  # loops each recipe in taco recipes
+        document.add_page_break()
+        # adds a page break
+        names = ', '.join([name['name'] for name in recipe])
+        # creates a headline for each recipe
+        document.add_heading(names, 0)
