@@ -1,3 +1,8 @@
+"""
+Kattie Cameron-Ervin ITEC 1150-60. This is my Random Recipe Cookbook, final coding that's going to generate a
+ few random taco recipes, as well a random photo of a taco.
+"""
+
 import requests
 from PIL import Image, ImageDraw, ImageFont
 import docx
@@ -50,18 +55,19 @@ for first_key in response_json.keys():
 """
 
 
-def create_document(image_name, photo_info):
+# this section is where i was generate
+
+def create_document(half_size, taco_data):
     document = docx.Document()
     # naming and adding heading
     document.add_heading("Random Taco Cookbook", 0)
     # adding a picture
-    document.add_picture(image_name, width=(width / 2))
+    document.add_picture(half_size, width=(width / 2))
     # adding and naming heading for credits
     document.add_heading('Credits')
     # adding lines under credits
-    document.add_paragraph('Taco image: ' + photo_info, style='List Bullet')
-    # adds unsplash link, styles it with bullet points
-    document.add_paragraph('Tacos from: ' + taco_data, style='List Bullet')
+    document.add_paragraph('Taco image: ' + taco_data, )
+    document.add_paragraph('Tacos from: ' + taco_data, )
     document.add_paragraph('Created by: Kattie')
 
     for recipe in taco_data:  # loops each recipe in taco recipes
@@ -74,5 +80,5 @@ def create_document(image_name, photo_info):
     for rec in recipe:
         document.add_heading(recipe[rec]['name'], level=1)  # creates a heading for recipe list
         document.add_paragraph(recipe[rec]['recipe'])  # adds list of recipe
-        # after looping, save the data in a word document
+        # after looping, save taco data in a word document
         document.save('recipes.docx')
