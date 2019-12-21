@@ -15,9 +15,12 @@ half_size = im.resize((half_width, half_height))
 half_size.show()  # this would show my half size image
 half_size.save('half_size_taco.jpg')
 
-font = ImageFont.truetype('DejaVuSans.ttf', 50)  # font = ImageFont.truetype('DejaVuSans.ttf', 50)
+font = ImageFont.truetype('DejaVuSans.ttf', size=250)  # font = ImageFont.truetype('DejaVuSans.ttf', 50)
 draw = ImageDraw.Draw(im)  # drawing tool
-draw.text((15, 15), "Random Taco Cookbook", (225, 225, 0), font=font)  # specifiying my font color
+draw.text((50, 50), "Random Taco Cookbook", (225, 225, 0), font=font)  # specifiying my font color
+
+im.show()
+
 im.save('half_size_taco_text.jpg')
 
 taco_data = 'https://taco-1150.herokuapp.com/random/?full_taco=true'  # requesting data from url
@@ -67,3 +70,9 @@ def create_document(image_name, photo_info):
         names = ', '.join([name['name'] for name in recipe])
         # creates a headline for each recipe
         document.add_heading(names, 0)
+
+    for rec in recipe:
+        document.add_heading(recipe[rec]['name'], level=1)  # creates a heading for recipe list
+        document.add_paragraph(recipe[rec]['recipe'])  # adds list of recipe
+        # after looping, save the data in a word document
+        document.save('recipes.docx')
